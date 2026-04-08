@@ -45,33 +45,57 @@ export const HeroSection = () => {
             <span className="text-sm text-purple-300">Premium Web Design Studio</span>
           </motion.div>
 
-         {/* Logo with Glow Effect */}
+        {/* Logo with Glow Effect */}
 <motion.div
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.6 }}
-  className="flex justify-center mb-10 relative"
+  className="flex justify-center mb-10"
 >
+  {/* Fixed-size container so circle always wraps logo perfectly */}
+  <div style={{ position: "relative", width: 192, height: 192, display: "flex", alignItems: "center", justifyContent: "center" }}>
 
-  {/* Glow Background */}
-  <div className="absolute w-56 h-56 bg-purple-600/30 rounded-full blur-3xl opacity-60"></div>
+    {/* Glow Background */}
+    <div style={{
+      position: "absolute", inset: 0,
+      background: "rgba(123,47,247,0.28)",
+      borderRadius: "50%",
+      filter: "blur(32px)",
+    }} />
 
-  {/* Animated Light Ring */}
-  <motion.div
-    animate={{ rotate: 360 }}
-    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-    className="absolute w-48 h-48 border border-purple-500/30 rounded-full"
-  ></motion.div>
+    {/* Animated Light Ring — same size as container */}
+    <motion.div
+      animate={{ rotate: 360 }}
+      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      style={{
+        position: "absolute", inset: 0,
+        border: "1px solid rgba(123,47,247,0.3)",
+        borderRadius: "50%",
+      }}
+    />
 
-  {/* Logo */}
-  <motion.img
-    src="https://customer-assets.emergentagent.com/job_3b9058a0-7844-4852-8656-1f94a27f5842/artifacts/wtv9ay46_WhatsApp%20Image%202026-03-06%20at%203.51.44%20PM-Photoroom.png"
-    alt="I Design 4 U"
-    className="relative w-32 sm:w-36 md:w-40 lg:w-44 drop-shadow-[0_0_25px_rgba(168,85,247,0.8)]"
-    animate={{ y: [0, -8, 0] }}
-    transition={{ duration: 4, repeat: Infinity }}
-  />
+    {/* Second slower ring */}
+    <motion.div
+      animate={{ rotate: -360 }}
+      transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+      style={{
+        position: "absolute",
+        inset: 10,
+        border: "1px dashed rgba(159,91,255,0.18)",
+        borderRadius: "50%",
+      }}
+    />
 
+    {/* Logo — centered inside container */}
+    <motion.img
+      src="https://customer-assets.emergentagent.com/job_3b9058a0-7844-4852-8656-1f94a27f5842/artifacts/wtv9ay46_WhatsApp%20Image%202026-03-06%20at%203.51.44%20PM-Photoroom.png"
+      alt="I Design 4 U"
+      style={{ position: "relative", width: 120, height: 120, objectFit: "contain", filter: "drop-shadow(0 0 20px rgba(168,85,247,0.8))" }}
+      animate={{ y: [0, -8, 0] }}
+      transition={{ duration: 4, repeat: Infinity }}
+    />
+
+  </div>
 </motion.div>
 
           {/* Headline */}
