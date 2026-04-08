@@ -7,10 +7,14 @@ module.exports = {
   ],
   theme: {
   	extend: {
+  		screens: {
+  			'xs': '480px',
+  		},
   		fontFamily: {
-  			outfit: ['Outfit', 'sans-serif'],
-  			'dm-sans': ['DM Sans', 'sans-serif'],
-  			mono: ['JetBrains Mono', 'monospace'],
+  			outfit:    ['Barlow Condensed', 'sans-serif'],
+  			'dm-sans': ['Barlow', 'sans-serif'],
+  			rajdhani:  ['Rajdhani', 'sans-serif'],
+  			mono:      ['JetBrains Mono', 'monospace'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -67,20 +71,12 @@ module.exports = {
   		},
   		keyframes: {
   			'accordion-down': {
-  				from: {
-  					height: '0'
-  				},
-  				to: {
-  					height: 'var(--radix-accordion-content-height)'
-  				}
+  				from: { height: '0' },
+  				to: { height: 'var(--radix-accordion-content-height)' }
   			},
   			'accordion-up': {
-  				from: {
-  					height: 'var(--radix-accordion-content-height)'
-  				},
-  				to: {
-  					height: '0'
-  				}
+  				from: { height: 'var(--radix-accordion-content-height)' },
+  				to: { height: '0' }
   			}
   		},
   		animation: {

@@ -1,0 +1,146 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║            iDESIGN4U — PORTFOLIO MANAGEMENT GUIDE                          ║
+║            File: frontend/src/pages/PortfolioPage.jsx                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Ye guide sirf apke liye hai. Portfolio me website add karna ya delete karna
+bilkul easy hai — sirf ek file edit karni hai.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE LOCATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  frontend/src/pages/PortfolioPage.jsx
+
+Sirf is file me upar "const projects = [..." wali array edit karni hai.
+Baaki kuch nahi chhuna.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FIELDS SAMAJHNA (EK ENTRY KA STRUCTURE)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  {
+    id:          8,                              ← Unique number (har entry alag)
+    title:       "Restaurant Website",           ← Website ka naam
+    description: "Full menu with ordering...",  ← 1-2 line description
+    category:    "FOOD & RESTAURANT",            ← CAPS me category
+    url:         "https://yoursite.com/",        ← Live website ka link
+    desktopImg:  "https://...image...jpg",       ← Landscape screenshot (1280x800)
+    mobileImg:   "https://...image...jpg",       ← Portrait screenshot (390x844)
+  },
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ NAYI WEBSITE ADD KARNA — STEP BY STEP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1 — Screenshot lo
+  Desktop screenshot (1280×800 pixels):
+    → screenshotone.com ya microlink.io/screenshot use karo
+    → ya browser me F12 → responsive mode → 1280x800 → screenshot
+
+  Mobile screenshot (390×844 pixels):
+    → Chrome DevTools → iPhone 12 mode → screenshot
+
+STEP 2 — Screenshot host karo (free options):
+  → Cloudinary.com (free tier, best option)
+  → imgbb.com (upload karo, direct link lo)
+  → GitHub me image upload karke raw link lo
+
+STEP 3 — PortfolioPage.jsx kholo aur "const projects = [" dhundho
+
+STEP 4 — Last entry ke baad (closing "]" se pehle) ye add karo:
+
+  {
+    id:          8,
+    title:       "Apki Website Ka Naam",
+    description: "Short description jo client ko attract kare — 1-2 sentences.",
+    category:    "CATEGORY NAME CAPS ME",
+    url:         "https://live-website-url.com/",
+    desktopImg:  "https://your-image-host.com/desktop-screenshot.jpg",
+    mobileImg:   "https://your-image-host.com/mobile-screenshot.jpg",
+  },
+
+⚠️ IMPORTANT: Har entry ke baad comma (,) lagana mat bhoolo
+⚠️ id number unique hona chahiye — last id se +1 karo
+
+STEP 5 — File save karo → Vercel automatic deploy karega (~2 min)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❌ WEBSITE DELETE KARNA — STEP BY STEP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1 — PortfolioPage.jsx kholo
+
+STEP 2 — Wo entry dhundho jo delete karni hai (title se pehchano)
+
+STEP 3 — Opening brace "{" se closing brace "}," tak pura block delete karo
+  Example — ye poora block delete karna hai:
+  ┌─────────────────────────────────────────┐
+  │  {                                      │
+  │    id:          3,                      │
+  │    title:       "Real Estate Website",  │
+  │    ...                                  │
+  │  },                                     │
+  └─────────────────────────────────────────┘
+
+STEP 4 — File save karo → Vercel deploy hoga
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 ORDER CHANGE KARNA (Kaun sa project pehle dikhe)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Array me jo entry pehle hai, wo portfolio me pehle dikhti hai.
+Cut-paste karke order change karo. IDs same reh sakti hain — order se fark nahi.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📸 FREE SCREENSHOT TOOLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Desktop (1280×800):
+  https://screenshotone.com
+  https://microlink.io/screenshot
+  https://www.websiteplanet.com/webtools/screenshot/
+
+Mobile (390×844):
+  Chrome DevTools → Ctrl+Shift+I → Toggle Device → iPhone 12 → Screenshot
+
+Image Hosting (Free):
+  https://imgbb.com            ← Easiest, no signup needed
+  https://cloudinary.com       ← Best for production, free tier generous
+  https://github.com           ← Upload to repo, use raw.githubusercontent.com link
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 EXAMPLE — COMPLETE ENTRY (Copy-paste karo aur values change karo)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  {
+    id:          8,
+    title:       "AK Jewellers Website",
+    description: "Premium jewellery store website with live gold rate ticker, product gallery with WhatsApp inquiry, and stunning gold-purple design.",
+    category:    "JEWELLERY & LUXURY",
+    url:         "https://akjewellers.idesign4u.in/",
+    desktopImg:  "https://i.ibb.co/xyz/ak-jewellers-desktop.jpg",
+    mobileImg:   "https://i.ibb.co/abc/ak-jewellers-mobile.jpg",
+  },
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚡ VERCEL DEPLOY GUIDE (agar khud deploy karna ho)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. vercel.com pe login karo
+2. Dashboard → apka project → Settings → Git
+3. Agar GitHub se connected hai:
+   → GitHub pe changes push karo → Vercel automatic deploy karega
+4. Agar manually deploy karna ho:
+   → Terminal: cd frontend && vercel --prod
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 HELP CHAHIYE?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Koi bhi problem ho toh Claude ko ye file dikhao aur poochho.
+Ya WhatsApp karo: www.idesign4u.in
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                     Made with ❤️ by iDesign4U
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
