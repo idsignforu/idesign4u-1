@@ -1,197 +1,148 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Star, Zap, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export const HeroSection = () => {
-  return (
-    <section
-      className="relative min-h-screen flex items-center pt-48 md:pt-36 pb-16 overflow-hidden"
-      data-testid="hero-section"
-    >
-      {/* Floating UI Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-[10%] w-32 h-32 bg-gradient-to-br from-purple-500/20 to-transparent rounded-2xl border border-purple-500/20 blur-sm"
-        />
-        <motion.div
-          animate={{ y: [0, 20, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/3 right-[15%] w-24 h-24 bg-gradient-to-br from-cyan-500/20 to-transparent rounded-full border border-cyan-500/20 blur-sm"
-        />
-        <motion.div
-          animate={{ y: [0, -15, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/4 left-[20%] w-20 h-20 bg-gradient-to-br from-purple-600/20 to-transparent rounded-xl border border-purple-500/20 blur-sm"
-        />
-        <motion.div
-          animate={{ y: [0, 25, 0] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/3 right-[10%] w-28 h-28 bg-gradient-to-br from-pink-500/10 to-transparent rounded-2xl border border-pink-500/10 blur-sm"
-        />
-      </div>
+const LOGO_URL = "https://customer-assets.emergentagent.com/job_3b9058a0-7844-4852-8656-1f94a27f5842/artifacts/wtv9ay46_WhatsApp%20Image%202026-03-06%20at%203.51.44%20PM-Photoroom.png";
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-4xl mx-auto">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-8"
-          >
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span className="text-sm text-purple-300">Premium Web Design Studio</span>
-          </motion.div>
+const floatA = { animate:{y:[0,-18,0]}, transition:{duration:6, repeat:Infinity, ease:"easeInOut"} };
+const floatB = { animate:{y:[0,14,0]},  transition:{duration:8, repeat:Infinity, ease:"easeInOut"} };
+const floatC = { animate:{y:[0,-12,0]}, transition:{duration:7, repeat:Infinity, ease:"easeInOut"} };
 
-        {/* Logo with Glow Effect */}
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  className="flex justify-center mb-10"
->
-  {/* Fixed-size container so circle always wraps logo perfectly */}
-  <div style={{ position: "relative", width: 192, height: 192, display: "flex", alignItems: "center", justifyContent: "center" }}>
+export const HeroSection = () => (
+  <section className="relative min-h-screen flex items-center overflow-hidden" style={{ paddingTop:160, paddingBottom:60 }} data-testid="hero-section">
 
-    {/* Glow Background */}
-    <div style={{
-      position: "absolute", inset: 0,
-      background: "rgba(123,47,247,0.28)",
-      borderRadius: "50%",
-      filter: "blur(32px)",
-    }} />
+    {/* ── Grid background ── */}
+    <div style={{ position:"absolute", inset:0, pointerEvents:"none",
+      backgroundImage:"linear-gradient(rgba(123,47,247,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(123,47,247,0.05) 1px,transparent 1px)",
+      backgroundSize:"48px 48px" }}/>
 
-    {/* Animated Light Ring — same size as container */}
-    <motion.div
-      animate={{ rotate: 360 }}
-      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-      style={{
-        position: "absolute", inset: 0,
-        border: "1px solid rgba(123,47,247,0.3)",
-        borderRadius: "50%",
-      }}
-    />
+    {/* ── Radial glows ── */}
+    <div style={{ position:"absolute", top:"-10%", left:"-5%", width:500, height:500,
+      background:"radial-gradient(circle,rgba(123,47,247,0.22) 0%,transparent 70%)", filter:"blur(40px)", pointerEvents:"none" }}/>
+    <div style={{ position:"absolute", bottom:"10%", right:"-5%", width:400, height:400,
+      background:"radial-gradient(circle,rgba(0,194,255,0.12) 0%,transparent 70%)", filter:"blur(40px)", pointerEvents:"none" }}/>
 
-    {/* Second slower ring */}
-    <motion.div
-      animate={{ rotate: -360 }}
-      transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-      style={{
-        position: "absolute",
-        inset: 10,
-        border: "1px dashed rgba(159,91,255,0.18)",
-        borderRadius: "50%",
-      }}
-    />
+    {/* ── Floating shapes ── */}
+    <motion.div {...floatA} style={{ position:"absolute", top:"22%", left:"6%", width:64, height:64,
+      background:"linear-gradient(135deg,rgba(123,47,247,0.25),rgba(0,194,255,0.1))",
+      borderRadius:16, border:"1px solid rgba(123,47,247,0.2)", backdropFilter:"blur(4px)", pointerEvents:"none" }}/>
+    <motion.div {...floatB} style={{ position:"absolute", top:"35%", right:"8%", width:48, height:48,
+      background:"linear-gradient(135deg,rgba(0,194,255,0.2),transparent)",
+      borderRadius:"50%", border:"1px solid rgba(0,194,255,0.2)", pointerEvents:"none" }}/>
+    <motion.div {...floatC} style={{ position:"absolute", bottom:"28%", left:"14%", width:40, height:40,
+      background:"linear-gradient(135deg,rgba(255,46,147,0.15),transparent)",
+      borderRadius:10, border:"1px solid rgba(255,46,147,0.15)", pointerEvents:"none" }}/>
 
-    {/* Logo — centered inside container */}
-    <motion.img
-      src="https://customer-assets.emergentagent.com/job_3b9058a0-7844-4852-8656-1f94a27f5842/artifacts/wtv9ay46_WhatsApp%20Image%202026-03-06%20at%203.51.44%20PM-Photoroom.png"
-      alt="I Design 4 U"
-      style={{ position: "relative", width: 120, height: 120, objectFit: "contain", filter: "drop-shadow(0 0 20px rgba(168,85,247,0.8))" }}
-      animate={{ y: [0, -8, 0] }}
-      transition={{ duration: 4, repeat: Infinity }}
-    />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+      <div className="text-center max-w-4xl mx-auto">
 
-  </div>
-</motion.div>
-
-          {/* Headline */}
-          <motion.h1
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5, delay: 0.1 }}
-  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6 leading-tight text-center max-w-4xl mx-auto px-4"
->
- <span className="block text-white">
-Launch Your Business Website
-</span>
-
-<span className="block text-gradient-purple text-2xl sm:text-3xl md:text-4xl">
-With One-Time Or Monthly Plans
-</span>
-</motion.h1>
-
-          {/* Subheadline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10"
-          >
-            Launch a professional high-converting website for your business.
-Choose between affordable monthly plans or a one-time website build.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Link
-              to="/portfolio"
-              className="btn-outline-neon flex items-center gap-2 group"
-              data-testid="view-portfolio-btn"
-            >
-              View Portfolio
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <a
-              href="#contact"
-              className="btn-neon flex items-center gap-2"
-              data-testid="start-project-hero-btn"
-            >
-              Start Your Project
-              <Sparkles className="w-4 h-4" />
-            </a>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="grid grid-cols-3 gap-8 mt-20 max-w-xl mx-auto"
-          >
-            {[
-              { value: "100+", label: "Projects Delivered" },
-              { value: "50+", label: "Happy Clients" },
-              { value: "48hr", label: "Quick Delivery" },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-xs sm:text-sm text-gray-500">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-purple-500/30 rounded-full flex justify-center pt-2"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-1.5 h-1.5 bg-purple-500 rounded-full"
-          />
+        {/* Badge */}
+        <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.5 }}
+          style={{ display:"inline-flex", alignItems:"center", gap:8,
+            background:"rgba(123,47,247,0.1)", border:"1px solid rgba(123,47,247,0.25)",
+            borderRadius:999, padding:"6px 16px", marginBottom:32 }}>
+          <Sparkles style={{ width:14, height:14, color:"#a78bfa" }}/>
+          <span style={{ fontSize:13, color:"#c4b5fd", fontWeight:500, letterSpacing:"0.04em" }}>
+            Premium Web Design Studio
+          </span>
         </motion.div>
-      </motion.div>
-    </section>
-  );
-};
+
+        {/* Logo circle */}
+        <motion.div initial={{ opacity:0, scale:0.85 }} animate={{ opacity:1, scale:1 }}
+          transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}
+          style={{ display:"flex", justifyContent:"center", marginBottom:36 }}>
+          <div style={{ position:"relative", width:176, height:176, display:"flex", alignItems:"center", justifyContent:"center" }}>
+            {/* glow */}
+            <div style={{ position:"absolute", inset:0, background:"rgba(123,47,247,0.25)", borderRadius:"50%", filter:"blur(28px)" }}/>
+            {/* ring 1 */}
+            <motion.div animate={{ rotate:360 }} transition={{ duration:20, repeat:Infinity, ease:"linear" }}
+              style={{ position:"absolute", inset:0, border:"1px solid rgba(123,47,247,0.3)", borderRadius:"50%" }}/>
+            {/* ring 2 */}
+            <motion.div animate={{ rotate:-360 }} transition={{ duration:32, repeat:Infinity, ease:"linear" }}
+              style={{ position:"absolute", inset:12, border:"1px dashed rgba(159,91,255,0.15)", borderRadius:"50%" }}/>
+            {/* logo */}
+            <motion.img src={LOGO_URL} alt="iDesign4U"
+              animate={{ y:[0,-8,0] }} transition={{ duration:4, repeat:Infinity, ease:"easeInOut" }}
+              style={{ position:"relative", width:112, height:112, objectFit:"contain",
+                filter:"drop-shadow(0 0 20px rgba(168,85,247,0.8))" }}/>
+          </div>
+        </motion.div>
+
+        {/* Headline */}
+        <motion.div initial={{ opacity:0, y:24 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.7, delay:0.15 }}>
+          <h1 style={{ fontSize:"clamp(34px,7vw,72px)", fontWeight:800, lineHeight:1.1,
+            letterSpacing:"-0.02em", color:"#fff", marginBottom:8 }}>
+            Launch Your Business
+          </h1>
+          <h1 style={{ fontSize:"clamp(34px,7vw,72px)", fontWeight:800, lineHeight:1.1,
+            letterSpacing:"-0.02em", color:"#fff", marginBottom:4 }}>
+            Website
+          </h1>
+          <h2 style={{ fontSize:"clamp(22px,4.5vw,48px)", fontWeight:700, lineHeight:1.2,
+            background:"linear-gradient(135deg,#9F5BFF,#00C2FF)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent",
+            marginBottom:24 }}>
+            With One-Time Or Monthly Plans
+          </h2>
+        </motion.div>
+
+        {/* Description */}
+        <motion.p initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6, delay:0.3 }}
+          style={{ fontSize:"clamp(14px,2.2vw,18px)", color:"rgba(255,255,255,0.5)",
+            maxWidth:560, margin:"0 auto 40px", lineHeight:1.7 }}>
+          Launch a professional high-converting website for your business. Choose from flexible pricing plans designed for every budget.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6, delay:0.4 }}
+          style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"center", gap:12, marginBottom:52 }}>
+          <a href="/#pricing"
+            style={{ display:"inline-flex", alignItems:"center", gap:8,
+              background:"linear-gradient(135deg,#7B2FF7,#9F5BFF)", color:"#fff",
+              borderRadius:999, padding:"13px 28px", fontSize:15, fontWeight:600,
+              textDecoration:"none", boxShadow:"0 0 24px rgba(123,47,247,0.45)",
+              transition:"all 0.25s ease" }}
+            onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"}
+            onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}>
+            View Pricing <ArrowRight size={16}/>
+          </a>
+          <Link to="/portfolio"
+            style={{ display:"inline-flex", alignItems:"center", gap:8, color:"#c4b5fd",
+              background:"rgba(123,47,247,0.08)", border:"1px solid rgba(123,47,247,0.25)",
+              borderRadius:999, padding:"13px 28px", fontSize:15, fontWeight:500,
+              textDecoration:"none", transition:"all 0.25s ease" }}
+            onMouseEnter={e=>e.currentTarget.style.background="rgba(123,47,247,0.15)"}
+            onMouseLeave={e=>e.currentTarget.style.background="rgba(123,47,247,0.08)"}>
+            View Portfolio
+          </Link>
+        </motion.div>
+
+        {/* Trust badges */}
+        <motion.div initial={{ opacity:0, y:12 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6, delay:0.55 }}
+          style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:16 }}>
+          {[
+            { icon:Star, text:"5★ Rated Service" },
+            { icon:Zap,  text:"48 Hour Delivery" },
+            { icon:Shield, text:"Premium UI Design" },
+          ].map(({ icon:Icon, text }) => (
+            <div key={text} style={{ display:"flex", alignItems:"center", gap:6,
+              background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)",
+              borderRadius:999, padding:"6px 14px" }}>
+              <Icon style={{ width:13, height:13, color:"#a78bfa" }}/>
+              <span style={{ fontSize:12, color:"rgba(255,255,255,0.5)", fontWeight:500 }}>{text}</span>
+            </div>
+          ))}
+        </motion.div>
+
+      </div>
+    </div>
+
+    {/* scroll indicator */}
+    <motion.div animate={{ y:[0,8,0] }} transition={{ duration:2, repeat:Infinity }}
+      style={{ position:"absolute", bottom:28, left:"50%", transform:"translateX(-50%)",
+        width:26, height:42, border:"2px solid rgba(123,47,247,0.35)", borderRadius:13,
+        display:"flex", justifyContent:"center", paddingTop:6 }}>
+      <motion.div animate={{ opacity:[1,0,1], y:[0,12,0] }} transition={{ duration:2, repeat:Infinity }}
+        style={{ width:4, height:8, background:"rgba(159,91,255,0.7)", borderRadius:2 }}/>
+    </motion.div>
+  </section>
+);
