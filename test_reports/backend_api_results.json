@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-03-06T10:55:30.157942",
+  "total_tests": 6,
+  "passed_tests": 6,
+  "success_rate": "100.0%",
+  "results": [
+    {
+      "test": "API Root",
+      "method": "GET",
+      "endpoint": "",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Get Blog Posts",
+      "method": "GET",
+      "endpoint": "blog",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Get Blog Categories",
+      "method": "GET",
+      "endpoint": "blog-categories",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Seed Blog Posts",
+      "method": "POST",
+      "endpoint": "seed-blog",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Contact Form Submission",
+      "method": "POST",
+      "endpoint": "contact",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Status Check",
+      "method": "POST",
+      "endpoint": "status",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    }
+  ]
+}
