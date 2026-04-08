@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export const HeroSection = () => {
   return (
     <section
-      className="relative min-h-screen flex items-center pt-44 md:pt-32 pb-16 overflow-hidden"
+      className="relative min-h-screen flex items-center pt-48 md:pt-36 pb-16 overflow-hidden"
       data-testid="hero-section"
     >
       {/* Floating UI Elements */}
