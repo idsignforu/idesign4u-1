@@ -117,8 +117,9 @@ function SliderPanel({ items, type }) {
 
   useEffect(() => {
     if (paused) return;
-    timerRef.current = setInterval(next, 3500);
+    timerRef.current = setInterval(() => setCurrent((c) => (c + 1) % items.length), 3500);
     return () => clearInterval(timerRef.current);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paused, current]);
 
   const item = items[current];
