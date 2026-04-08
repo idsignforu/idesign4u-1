@@ -126,19 +126,36 @@ function SliderPanel({ items, type }) {
   const Icon = item.icon;
   const isBenefit = type === "benefit";
 
-  return (
+
+   return (
+  <div className="relative">
+    
+    {/* HOVER GLOW */}
+    <div className="absolute inset-0 opacity-0 hover:opacity-100 transition duration-500 bg-gradient-to-r from-purple-500/10 to-pink-500/10 pointer-events-none rounded-3xl"></div>
+
+    {/* MAIN CARD */}
     <div
-      className="relative rounded-3xl overflow-hidden flex flex-col"
+      className="
+      relative 
+      rounded-3xl 
+      overflow-hidden 
+      flex flex-col
+      bg-white/5
+      backdrop-blur-xl
+      border border-white/10
+      shadow-[0_0_40px_rgba(123,47,247,0.15)]
+      hover:shadow-[0_0_60px_rgba(123,47,247,0.3)]
+      transition-all duration-500
+      "
       style={{
-        background: isBenefit
-          ? "linear-gradient(135deg,rgba(123,47,247,0.12) 0%,rgba(15,5,29,0.95) 100%)"
-          : "linear-gradient(135deg,rgba(255,60,60,0.1) 0%,rgba(15,5,29,0.95) 100%)",
+        background: "rgba(15,5,29,0.6)",
         border: `1px solid ${isBenefit ? "rgba(123,47,247,0.25)" : "rgba(255,80,80,0.2)"}`,
         minHeight: "380px",
       }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
+    
       {/* Tab header */}
       <div className="px-6 pt-6 pb-4 border-b border-white/5 flex items-center justify-between">
         <span
@@ -227,6 +244,12 @@ function SliderPanel({ items, type }) {
 export default function WhyWebsiteSection() {
   return (
     <section className="py-24 relative" id="why-website">
+      {/* PREMIUM BACKGROUND */}
+<div className="absolute inset-0 -z-10">
+  <div className="absolute top-[-20%] left-[10%] w-[500px] h-[500px] bg-purple-700/20 rounded-full blur-3xl"></div>
+  <div className="absolute bottom-[-20%] right-[10%] w-[400px] h-[400px] bg-indigo-600/20 rounded-full blur-3xl"></div>
+  <div className="absolute inset-0 opacity-[0.04] bg-[url('/noise.png')]"></div>
+</div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
@@ -241,12 +264,15 @@ export default function WhyWebsiteSection() {
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mt-3 mb-4"
             style={{ fontFamily:"'Barlow Condensed',sans-serif", letterSpacing:"0.02em" }}>
             Website hai toh{" "}
-            <span style={{ background:"linear-gradient(90deg,#7B2FF7,#9F5BFF)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
-              business hai
-            </span>
+            <span className="relative inline-block">
+  <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+    business hai
+  </span>
+  <span className="absolute inset-0 blur-xl opacity-30 bg-purple-500"></span>
+</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            See exactly what you gain with a professional website — and what you lose every day without one.
+            See exactly what you gain with a professional website and what you lose every day without one.
           </p>
         </motion.div>
 
@@ -273,11 +299,11 @@ export default function WhyWebsiteSection() {
         >
           <p className="text-2xl sm:text-3xl font-black text-white mb-2"
             style={{ fontFamily:"'Barlow Condensed',sans-serif" }}>
-            Starting at just <span style={{ color:"#9F5BFF" }}>₹4,999</span> — One-time payment.
+            Starting at just <span style={{ color:"#9F5BFF" }}>₹5,999</span> — One-time payment.
           </p>
           <p className="text-gray-400 mb-6">Get a premium website that works harder than any employee.</p>
           <a href="#contact" className="btn-neon inline-flex items-center gap-2 text-base">
-            🚀 Get My Website Today
+             Get My Website Today
           </a>
         </motion.div>
 
