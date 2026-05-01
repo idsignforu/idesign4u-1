@@ -50,7 +50,7 @@ export const Header = ({ scrolled }) => {
         ([entry]) => {
           if (entry.isIntersecting) setActiveLink(name);
         },
-        { threshold: 0.4 }
+        { threshold: 0.15, rootMargin: "-10% 0px -60% 0px" }
       );
       obs.observe(el);
       observers.push(obs);
@@ -61,7 +61,7 @@ export const Header = ({ scrolled }) => {
       ([entry]) => {
         if (entry.isIntersecting) setActiveLink("Home");
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
     const heroEl = document.querySelector("[data-testid='hero-section']");
     if (heroEl) heroObs.observe(heroEl);
