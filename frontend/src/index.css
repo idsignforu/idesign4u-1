@@ -26,6 +26,7 @@
 
 html {
   scroll-behavior: smooth;
+  min-width: 320px;
 }
 
 body {
@@ -35,6 +36,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  min-width: 320px;
 }
 
 h1, h2, h3, h4, h5, h6 {
