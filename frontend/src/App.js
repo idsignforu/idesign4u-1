@@ -39,7 +39,7 @@ function App() {
   }, [handleScroll]);
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative" style={{ minWidth: "320px" }}>
       <AnimatedBackground />
       <BrowserRouter>
         <ScrollToTop />
