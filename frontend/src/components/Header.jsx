@@ -179,16 +179,29 @@ export const Header = ({ scrolled }) => {
     const el  = mobileLinkRefs.current[activeLink];
     const nav = mobileNavRef.current;
     if (!el || !nav) return;
-    const er = el.getBoundingClientRect();
-    setMobilePillStyle({ left: el.offsetLeft, width: er.width });
+
+    const elRect  = el.getBoundingClientRect();
+    const navRect = nav.getBoundingClientRect();
+
+    // Correct pill left: position relative to nav visible left edge,
+    // then add scrollLeft to convert to nav internal coordinate space.
+    // Accurate during horizontal scroll AND pinch-zoom.
+    const left  = elRect.left - navRect.left + nav.scrollLeft;
+    const width = elRect.width;
+
+    setMobilePillStyle({ left, width });
+
+    // Auto-scroll nav so active item is centred
     nav.scrollTo({
-      left: el.offsetLeft - nav.clientWidth / 2 + er.width / 2,
+      left: nav.scrollLeft + (elRect.left - navRect.left) - nav.clientWidth / 2 + width / 2,
       behavior: "smooth",
     });
   }, [activeLink]);
 
+  // Recalc on activeLink change
   useEffect(() => { recalcMobilePill(); }, [recalcMobilePill]);
 
+  // Recalc on window resize + pinch-zoom (visualViewport)
   useEffect(() => {
     window.addEventListener("resize", recalcMobilePill, { passive: true });
     const vvp = window.visualViewport;
@@ -197,6 +210,14 @@ export const Header = ({ scrolled }) => {
       window.removeEventListener("resize", recalcMobilePill);
       if (vvp) vvp.removeEventListener("resize", recalcMobilePill);
     };
+  }, [recalcMobilePill]);
+
+  // Recalc when user horizontally scrolls the nav bar itself
+  useEffect(() => {
+    const nav = mobileNavRef.current;
+    if (!nav) return;
+    nav.addEventListener("scroll", recalcMobilePill, { passive: true });
+    return () => nav.removeEventListener("scroll", recalcMobilePill);
   }, [recalcMobilePill]);
 
   // ── Scroll-to-section ────────────────────────────────────────────────────
