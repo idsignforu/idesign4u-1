@@ -15,78 +15,142 @@ const navLinks = [
   { name: "Contact",   href: "/#contact",  section: "contact",  icon: Mail },
 ];
 
+// Section IDs in page order
+const SECTION_IDS = ["services", "pricing", "contact"];
+const SECTION_TO_NAV = { services: "Services", pricing: "Pricing", contact: "Contact" };
+
+// ─────────────────────────────────────────────────────────────────────────────
+// useActiveSection – scroll-position based (zoom-safe) + visualViewport events
+// ─────────────────────────────────────────────────────────────────────────────
+function useActiveSection(isHomePage) {
+  const [activeSection, setActiveSection] = useState("Home");
+  const manualOverride = useRef(false);
+  const overrideTimer  = useRef(null);
+
+  // Dynamically measure header + announcement bar height
+  const getHeaderOffset = useCallback(() => {
+    const header = document.querySelector("[data-testid='header']");
+    const bar    = document.querySelector("[data-testid='announcement-bar']");
+    const hh = header ? header.getBoundingClientRect().height : 56;
+    const bh = bar    ? bar.getBoundingClientRect().height    : 62;
+    return hh + bh + 8;
+  }, []);
+
+  // Core detector: uses scrollY + getBoundingClientRect (works at any zoom level)
+  const detectFromScroll = useCallback(() => {
+    if (!isHomePage || manualOverride.current) return;
+
+    const scrollY  = window.scrollY;
+    const vh       = window.innerHeight; // zoom-aware
+    const offset   = getHeaderOffset();
+
+    const sections = SECTION_IDS.map((id) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const top = el.getBoundingClientRect().top + scrollY; // absolute doc position
+      return { id, top };
+    }).filter(Boolean);
+
+    if (!sections.length) { setActiveSection("Home"); return; }
+
+    // Walk sections in order; last one whose top <= (scrollY + offset + slack) wins
+    let next = "Home";
+    for (const { id, top } of sections) {
+      if (scrollY + offset >= top - 24) {
+        next = SECTION_TO_NAV[id];
+      }
+    }
+
+    // At bottom of page force last section
+    const docH = document.documentElement.scrollHeight;
+    if (scrollY + vh >= docH - 32) {
+      next = SECTION_TO_NAV[SECTION_IDS[SECTION_IDS.length - 1]];
+    }
+
+    setActiveSection(next);
+  }, [isHomePage, getHeaderOffset]);
+
+  useEffect(() => {
+    if (!isHomePage) return;
+
+    detectFromScroll(); // run once immediately
+
+    let scrollTick = false;
+    const onScroll = () => {
+      if (!scrollTick) {
+        requestAnimationFrame(() => { detectFromScroll(); scrollTick = false; });
+        scrollTick = true;
+      }
+    };
+
+    let resizeTick = false;
+    const onResize = () => {
+      if (!resizeTick) {
+        requestAnimationFrame(() => { detectFromScroll(); resizeTick = false; });
+        resizeTick = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
+
+    // visualViewport fires on pinch-zoom (iOS Safari + Android Chrome)
+    const vvp = window.visualViewport;
+    if (vvp) {
+      vvp.addEventListener("resize", onResize);
+      vvp.addEventListener("scroll", onScroll);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      if (vvp) {
+        vvp.removeEventListener("resize", onResize);
+        vvp.removeEventListener("scroll", onScroll);
+      }
+      clearTimeout(overrideTimer.current);
+    };
+  }, [isHomePage, detectFromScroll]);
+
+  // Suppress scroll detection briefly after a manual nav click (prevents flicker)
+  const applyManualOverride = useCallback((name) => {
+    manualOverride.current = true;
+    setActiveSection(name);
+    clearTimeout(overrideTimer.current);
+    overrideTimer.current = setTimeout(() => {
+      manualOverride.current = false;
+      detectFromScroll();
+    }, 1200);
+  }, [detectFromScroll]);
+
+  return { activeSection, applyManualOverride };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 export const Header = ({ scrolled }) => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [activeLink, setActiveLink] = useState("Home");
+  const navigate  = useNavigate();
   const [hoveredLink, setHoveredLink] = useState(null);
 
-  // Desktop pill
-  const navRef = useRef(null);
+  const isHomePage = location.pathname === "/";
+  const { activeSection, applyManualOverride } = useActiveSection(isHomePage);
+
+  // Resolve active nav item
+  const activeLink = (() => {
+    const p = location.pathname;
+    if (p === "/portfolio")    return "Portfolio";
+    if (p.startsWith("/blog")) return "Blog";
+    if (!isHomePage)           return "Home";
+    return activeSection; // scroll-tracked
+  })();
+
+  // ── Desktop pill ─────────────────────────────────────────────────────────
+  const navRef   = useRef(null);
   const linkRefs = useRef({});
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
 
-  // Mobile pill
-  const mobileNavRef = useRef(null);
-  const mobileLinkRefs = useRef({});
-  const [mobilePillStyle, setMobilePillStyle] = useState({ left: 0, width: 0 });
-
-  // ── Intersection Observer: update active based on which section is visible ──
-  useEffect(() => {
-    if (location.pathname !== "/") return;
-
-    const sectionMap = {
-      services: "Services",
-      pricing:  "Pricing",
-      contact:  "Contact",
-    };
-
-    const observers = [];
-
-    Object.entries(sectionMap).forEach(([id, name]) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveLink(name);
-        },
-        { threshold: 0.15, rootMargin: "-10% 0px -60% 0px" }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-
-    // When scrolled to top → Home
-    const heroObs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setActiveLink("Home");
-      },
-      { threshold: 0.1 }
-    );
-    const heroEl = document.querySelector("[data-testid='hero-section']");
-    if (heroEl) heroObs.observe(heroEl);
-
-    return () => {
-      observers.forEach(o => o.disconnect());
-      heroObs.disconnect();
-    };
-  }, [location.pathname]);
-
-  // ── Set active from URL on route change ──
-  useEffect(() => {
-    const p = location.pathname;
-    const h = location.hash;
-    if (p === "/portfolio") setActiveLink("Portfolio");
-    else if (p.startsWith("/blog")) setActiveLink("Blog");
-    else if (h === "#services") setActiveLink("Services");
-    else if (h === "#pricing")  setActiveLink("Pricing");
-    else if (h === "#contact")  setActiveLink("Contact");
-    else if (p === "/" && !h)   setActiveLink("Home");
-  }, [location]);
-
-  // Desktop pill position
-  useEffect(() => {
-    const el = linkRefs.current[activeLink];
+  const recalcDesktopPill = useCallback(() => {
+    const el  = linkRefs.current[activeLink];
     const nav = navRef.current;
     if (!el || !nav) return;
     const nr = nav.getBoundingClientRect();
@@ -94,9 +158,25 @@ export const Header = ({ scrolled }) => {
     setPillStyle({ left: er.left - nr.left, width: er.width });
   }, [activeLink]);
 
-  // Mobile pill + auto scroll
+  useEffect(() => { recalcDesktopPill(); }, [recalcDesktopPill]);
+
   useEffect(() => {
-    const el = mobileLinkRefs.current[activeLink];
+    window.addEventListener("resize", recalcDesktopPill, { passive: true });
+    const vvp = window.visualViewport;
+    if (vvp) vvp.addEventListener("resize", recalcDesktopPill);
+    return () => {
+      window.removeEventListener("resize", recalcDesktopPill);
+      if (vvp) vvp.removeEventListener("resize", recalcDesktopPill);
+    };
+  }, [recalcDesktopPill]);
+
+  // ── Mobile pill ──────────────────────────────────────────────────────────
+  const mobileNavRef   = useRef(null);
+  const mobileLinkRefs = useRef({});
+  const [mobilePillStyle, setMobilePillStyle] = useState({ left: 0, width: 0 });
+
+  const recalcMobilePill = useCallback(() => {
+    const el  = mobileLinkRefs.current[activeLink];
     const nav = mobileNavRef.current;
     if (!el || !nav) return;
     const er = el.getBoundingClientRect();
@@ -107,36 +187,50 @@ export const Header = ({ scrolled }) => {
     });
   }, [activeLink]);
 
+  useEffect(() => { recalcMobilePill(); }, [recalcMobilePill]);
+
+  useEffect(() => {
+    window.addEventListener("resize", recalcMobilePill, { passive: true });
+    const vvp = window.visualViewport;
+    if (vvp) vvp.addEventListener("resize", recalcMobilePill);
+    return () => {
+      window.removeEventListener("resize", recalcMobilePill);
+      if (vvp) vvp.removeEventListener("resize", recalcMobilePill);
+    };
+  }, [recalcMobilePill]);
+
+  // ── Scroll-to-section ────────────────────────────────────────────────────
   const scrollToSection = useCallback((section) => {
     const doScroll = () => {
       const el = document.getElementById(section);
-      if (el) {
-        // Account for fixed header height
-        const headerHeight = 120;
-        const top = el.getBoundingClientRect().top + window.scrollY - headerHeight;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
+      if (!el) return;
+      const header = document.querySelector("[data-testid='header']");
+      const bar    = document.querySelector("[data-testid='announcement-bar']");
+      const hh = header ? header.getBoundingClientRect().height : 56;
+      const bh = bar    ? bar.getBoundingClientRect().height    : 62;
+      const offset = hh + bh + 8;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
     };
 
-    if (location.pathname === "/") {
+    if (isHomePage) {
       doScroll();
     } else {
       navigate("/");
-      setTimeout(doScroll, 400);
+      setTimeout(doScroll, 450);
     }
-  }, [location.pathname, navigate]);
+  }, [isHomePage, navigate]);
 
   const handleClick = useCallback((link) => {
-    setActiveLink(link.name);
+    applyManualOverride(link.name);
     if (link.section) {
       scrollToSection(link.section);
     } else if (link.href === "/") {
-      if (location.pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
+      if (isHomePage) window.scrollTo({ top: 0, behavior: "smooth" });
       else navigate("/");
     }
-  }, [scrollToSection, location.pathname, navigate]);
+  }, [applyManualOverride, scrollToSection, isHomePage, navigate]);
 
-  // Announcement bar height: 2 rows ≈ 62px
   const announcementH = 62;
 
   return (
@@ -248,8 +342,8 @@ export const Header = ({ scrolled }) => {
           />
 
           {navLinks.map((link) => {
-            const Icon = link.icon;
-            const isActive = activeLink === link.name;
+            const Icon      = link.icon;
+            const isActive  = activeLink === link.name;
             const isHovered = hoveredLink === link.name;
 
             return (
